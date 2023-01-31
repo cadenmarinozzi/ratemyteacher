@@ -1,0 +1,63 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.star-selector {
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+
+	gap: 5px;
+
+	.star-selector-header {
+		display: flex;
+		flex-direction: row;
+
+		align-items: center;
+
+		gap: 10px;
+
+		position: relative;
+
+		.star-selector-tooltip-container {
+			position: absolute;
+
+			background: $light;
+
+			border: 1px solid $dark;
+			border-radius: 4px;
+
+			padding: 10px;
+
+			top: calc(100% - 10px);
+
+			max-width: 250px;
+
+			z-index: 2;
+
+			opacity: 0;
+
+			pointer-events: none;
+
+			transition: $transition;
+		}
+
+		.star-selector-tooltip {
+			color: $dark;
+
+			cursor: pointer;
+		}
+
+		.star-selector-tooltip:hover + .star-selector-tooltip-container {
+			opacity: 1;
+		}
+	}
+
+	.star-solid {
+		color: $primary;
+	}
+
+	.star-gold {
+		color: $warning;
+	}
+}

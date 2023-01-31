@@ -1,0 +1,25 @@
+@use 'colors.scss' as *;
+
+.add-teacher {
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+	justify-content: center;
+
+	.add-teacher-inputs {
+		display: flex;
+		flex-direction: column;
+
+		align-items: center;
+
+		gap: 20px;
+
+		.add-teacher-label {
+			color: $dark;
+		}
+	}
+}

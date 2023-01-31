@@ -1,0 +1,92 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.home {
+	padding: 20px;
+
+	display: flex;
+	flex-direction: column;
+
+	gap: 40px;
+
+	align-items: center;
+
+	.home-header {
+		display: flex;
+		flex-direction: row;
+
+		gap: 5px;
+
+		align-items: center;
+	}
+
+	.teachers-list {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+
+		gap: 20px;
+
+		align-items: center;
+
+		.teacher {
+			padding: 20px;
+
+			border: 1px solid $dark;
+			border-radius: 4px;
+
+			background: $light;
+			box-shadow: $drop-shadow;
+
+			display: flex;
+			flex-direction: column;
+
+			gap: 15px;
+
+			width: 200px;
+
+			.teacher-header {
+				display: flex;
+				flex-direction: column;
+
+				gap: 5px;
+
+				.header-title {
+					display: flex;
+					flex-direction: row;
+
+					gap: 10px;
+
+					.teacher-subject {
+						color: $dark;
+					}
+				}
+
+				.teacher-school {
+					color: $dark;
+				}
+			}
+
+			.teacher-ratings {
+				display: flex;
+				flex-direction: column;
+
+				gap: 8px;
+
+				.star-solid {
+					color: $primary;
+				}
+
+				.star-gold {
+					color: $warning;
+				}
+			}
+
+			.teacher-controls {
+				display: flex;
+				flex-direction: column;
+
+				align-items: center;
+			}
+		}
+	}
+}

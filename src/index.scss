@@ -1,0 +1,22 @@
+@use './colors.scss' as *;
+
+* {
+	padding: 0;
+	margin: 0;
+
+	font-family: sans-serif;
+	font-size: 13pt;
+}
+
+body {
+	background: $medium;
+}
+
+h1 {
+	font-size: 16pt;
+}
+
+a {
+	text-decoration: none;
+	color: $darkest;
+}

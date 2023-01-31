@@ -1,0 +1,52 @@
+@use 'vars.scss' as *;
+@use 'colors.scss' as *;
+
+.button {
+	border: 1px solid $dark;
+	border-radius: 4px;
+
+	padding-inline: 1.6 * 4px;
+	padding-block: 5px;
+
+	width: 150px;
+	height: 40px;
+
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+	justify-content: center;
+
+	gap: 10px;
+
+	transition: $transition;
+
+	cursor: pointer;
+
+	box-shadow: $drop-shadow;
+}
+
+.button-cta {
+	background: $primary;
+	color: $light;
+}
+
+.button-cta:hover {
+	background: $light;
+	color: $primary;
+}
+
+.button-cta:active {
+	background: rgba($primary, 0.6);
+	color: $light;
+}
+
+.button-default:hover {
+	background: $primary;
+	color: $light;
+}
+
+.button-default:active {
+	background: rgba($primary, 0.6);
+	color: $light;
+}
