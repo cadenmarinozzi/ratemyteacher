@@ -44,6 +44,10 @@
 
 			width: 200px;
 
+			cursor: pointer;
+
+			transition: $transition;
+
 			.teacher-header {
 				display: flex;
 				flex-direction: column;
@@ -81,12 +85,79 @@
 				}
 			}
 
+			.overall-rating-container {
+				display: flex;
+				flex-direction: column;
+
+				align-items: center;
+
+				gap: 5px;
+
+				.overall-rating {
+					color: $light;
+					font-weight: bold;
+
+					font-size: 22pt;
+
+					text-align: center;
+
+					border-radius: 4px;
+
+					display: flex;
+					flex-direction: row;
+
+					align-items: center;
+					justify-content: center;
+
+					width: 50px;
+					height: 50px;
+
+					background: transparent;
+				}
+
+				.good-overall-rating {
+					background: $success;
+				}
+
+				.bad-overall-rating {
+					background: $secondary;
+				}
+
+				.medium-overall-rating {
+					background: $warning;
+				}
+			}
+
+			.teacher-reviews {
+				display: flex;
+				flex-direction: column;
+
+				gap: 5px;
+
+				align-items: center;
+
+				.teacher-review {
+					display: flex;
+					flex-direction: row;
+
+					gap: 10px;
+
+					align-items: center;
+
+					color: $dark;
+				}
+			}
+
 			.teacher-controls {
 				display: flex;
 				flex-direction: column;
 
 				align-items: center;
 			}
+		}
+
+		.teacher:hover {
+			border-color: $darkest;
 		}
 	}
 }

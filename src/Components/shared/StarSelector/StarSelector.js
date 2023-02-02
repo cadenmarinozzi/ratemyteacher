@@ -1,4 +1,9 @@
-import { faQuestionCircle, faStar } from '@fortawesome/free-solid-svg-icons';
+import {
+	faQuestionCircle,
+	faStar,
+	faStarHalf,
+	faStarHalfStroke,
+} from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
@@ -10,6 +15,7 @@ class StarSelector extends Component {
 
 		this.state = {
 			stars: props.stars ?? 0,
+			halfStar: false,
 		};
 
 		if (props.onChange) props.onChange(this.state.stars);
@@ -25,9 +31,8 @@ class StarSelector extends Component {
 		const { label, tooltip } = this.props;
 		const stars = [];
 
-		for (let i = 0; i < this.state.stars; i++) {
+		for (let i = 0; i < Math.ceil(this.state.stars); i++) {
 			const starIndex = i + 1;
-
 			stars.push(
 				<FontAwesomeIcon
 					key={i}
@@ -35,13 +40,18 @@ class StarSelector extends Component {
 						this.state.stars === 5 ? 'star-gold' : 'star-solid'
 					}
 					onClick={this.handleChange.bind(this, starIndex)}
-					icon={faStar}
+					icon={
+						this.state.halfStar &&
+						i === Math.floor(this.state.stars)
+							? faStarHalfStroke
+							: faStar
+					}
 				/>
 			);
 		}
 
 		if (this.state.stars < 5) {
-			for (let i = 0; i < 5 - this.state.stars; i++) {
+			for (let i = 0; i < 5 - Math.ceil(this.state.stars); i++) {
 				const starIndex = this.state.stars + i + 1;
 
 				stars.push(

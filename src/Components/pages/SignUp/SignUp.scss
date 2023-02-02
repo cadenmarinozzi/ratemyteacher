@@ -1,0 +1,58 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.sign-up {
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+
+	transform: translate(-50%, -50%);
+
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+
+	gap: 20px;
+
+	padding: 20px;
+
+	background: $light;
+
+	border-radius: 10px;
+	border: 1px solid $dark;
+
+	box-shadow: $drop-shadow;
+
+	.sign-up-label {
+		color: $dark;
+
+		margin-bottom: 20px;
+
+		display: flex;
+		flex-direction: row;
+
+		align-items: center;
+
+		gap: 10px;
+	}
+
+	.sign-up-inputs {
+		display: flex;
+		flex-direction: column;
+
+		align-items: center;
+
+		gap: 20px;
+	}
+
+	.sign-up-buttons {
+		display: flex;
+		flex-direction: row;
+
+		gap: 20px;
+
+		align-items: center;
+	}
+}

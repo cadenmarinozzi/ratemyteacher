@@ -7,6 +7,8 @@ import './Home.scss';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getTeachers } from 'modules/web';
+import cookies from 'modules/cookies';
+import contentFilterText from 'modules/filtering';
 
 class Home extends Component {
 	constructor() {
@@ -31,6 +33,8 @@ class Home extends Component {
 	}
 
 	render() {
+		const loggedIn = cookies.get('loggedIn');
+
 		return (
 			<div className='home'>
 				<div className='home-header'>
@@ -38,7 +42,7 @@ class Home extends Component {
 						onChange={this.handleSearchInput.bind(this)}
 						placeholder='Search for a teacher or school'
 					/>
-					<Link to='/add-teacher'>
+					<Link to={loggedIn ? `/add-teacher` : '/login'}>
 						<Button label='Add Teacher' cta icon={faUserPlus} />
 					</Link>
 				</div>
@@ -60,7 +64,13 @@ class Home extends Component {
 						.map((teacher, index) => {
 							const teacherName = `${teacher.firstName} ${teacher.lastName}`;
 							let ratings = teacher.ratings;
-							delete ratings.reviews;
+
+							const reviews = ratings.reviews ?? [];
+
+							let overallRating = 0;
+							let numRatings = 0;
+
+							let noRatings = false;
 
 							const ratingSpans = Object.values(ratings).map(
 								(ratings, index) => {
@@ -68,6 +78,9 @@ class Home extends Component {
 									let ratingName = Object.keys(
 										teacher.ratings
 									)[index];
+
+									if (ratingName === 'reviews') return;
+
 									ratingName =
 										ratingName.charAt(0).toUpperCase() +
 										ratingName.slice(1);
@@ -84,6 +97,8 @@ class Home extends Component {
 									).reduce((a, b) => a + b, 0);
 
 									if (numPeople === 0) {
+										noRatings = true;
+
 										return (
 											<span key={index}>
 												{ratingName}: No ratings
@@ -92,7 +107,10 @@ class Home extends Component {
 									}
 
 									averageRating /= numPeople;
-									averageRating = Math.ceil(averageRating);
+									overallRating += averageRating;
+									averageRating = Math.round(averageRating);
+
+									numRatings++;
 
 									const ratingStars = [];
 
@@ -133,32 +151,97 @@ class Home extends Component {
 								}
 							);
 
+							overallRating /= numRatings;
+							overallRating = Math.floor(overallRating * 10) / 10;
+
 							return (
-								<div className='teacher' key={index}>
-									<div className='teacher-header'>
-										<div className='header-title'>
-											<h2>{teacherName}</h2>
-											<span className='teacher-subject'>
-												{teacher.subject}
+								<Link
+									to={`/teacher/${teacherName}`}
+									key={index}>
+									<div className='teacher'>
+										<div className='teacher-header'>
+											<div className='header-title'>
+												<h2>{teacherName}</h2>
+												<span className='teacher-subject'>
+													{teacher.subject}
+												</span>
+											</div>
+											<span className='teacher-school'>
+												{teacher.school}
 											</span>
 										</div>
-										<span className='teacher-school'>
-											{teacher.school}
-										</span>
+										<div className='teacher-ratings'>
+											{ratingSpans}
+										</div>
+										{!noRatings && (
+											<div className='overall-rating-container'>
+												Overall:
+												<span
+													className={`overall-rating ${
+														overallRating === 5
+															? 'good-overall-rating'
+															: overallRating ===
+																	4 ||
+															  overallRating ===
+																	3
+															? 'medium-overall-rating'
+															: 'bad-overall-rating'
+													}`}>
+													{overallRating}
+												</span>
+											</div>
+										)}
+										{reviews.length > 0 && (
+											<>
+												<span>People have said:</span>
+												<div className='teacher-reviews'>
+													{reviews
+														.slice(0, 3)
+														.map(
+															(review, index) => {
+																review =
+																	contentFilterText(
+																		review
+																	);
+
+																return (
+																	<span
+																		className='teacher-review'
+																		key={
+																			index
+																		}>
+																		"
+																		{review.slice(
+																			0,
+																			50
+																		)}
+																		{review.length >
+																		50
+																			? '...'
+																			: ''}
+																		"
+																	</span>
+																);
+															}
+														)}
+												</div>
+											</>
+										)}
+										<div className='teacher-controls'>
+											<Link
+												to={
+													loggedIn
+														? `/rate-teacher/${teacherName}`
+														: '/login'
+												}>
+												<Button
+													icon={faStar}
+													label='Rate'
+												/>
+											</Link>
+										</div>
 									</div>
-									<div className='teacher-ratings'>
-										{ratingSpans}
-									</div>
-									<div className='teacher-controls'>
-										<Link
-											to={`/rate-teacher/${teacherName}`}>
-											<Button
-												icon={faStar}
-												label='Rate'
-											/>
-										</Link>
-									</div>
-								</div>
+								</Link>
 							);
 						})}
 				</div>

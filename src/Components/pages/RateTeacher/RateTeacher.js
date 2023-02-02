@@ -16,7 +16,7 @@ class RateTeacher extends Component {
 	submitRating() {
 		const { difficulty, learning, personality, review } = this.state;
 
-		if (difficulty && learning && personality && review) {
+		if (difficulty && learning && personality) {
 			addRatings(this.props.teacherName, {
 				difficulty,
 				learning,
