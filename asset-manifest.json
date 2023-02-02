@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ratemyteacher/static/css/main.0333ae21.css",
+    "main.js": "/ratemyteacher/static/js/main.40113565.js",
+    "index.html": "/ratemyteacher/index.html",
+    "main.0333ae21.css.map": "/ratemyteacher/static/css/main.0333ae21.css.map",
+    "main.40113565.js.map": "/ratemyteacher/static/js/main.40113565.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0333ae21.css",
+    "static/js/main.40113565.js"
+  ]
+}
