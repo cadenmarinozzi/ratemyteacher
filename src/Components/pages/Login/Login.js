@@ -4,7 +4,7 @@ import Input from 'Components/shared/Input';
 import cookies from 'modules/cookies';
 import { login } from 'modules/web';
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.scss';
 
 class Login extends Component {
@@ -24,17 +24,16 @@ class Login extends Component {
 			return;
 		}
 
-		const loggedIn = login({ email, password });
+		const loggedIn = await login({ email, password });
 
 		if (loggedIn) {
 			await cookies.set('email', email);
 			await cookies.set('password', password);
 
-			// go back
-			window.location.href = '/';
+			setTimeout(() => {
+				this.props.navigate('/');
+			}, 1000);
 		}
-
-		return;
 	}
 
 	render() {
@@ -56,12 +55,14 @@ class Login extends Component {
 						onChange={(password) => this.setState({ password })}
 					/>
 					<div className='login-buttons'>
+						{/* <Link to='/'> */}
 						<Button
 							label='Login'
 							icon={faUser}
 							cta
 							onClick={this.login.bind(this)}
 						/>
+						{/* </Link> */}
 						<Link to='/sign-up'>
 							<Button label='Sign Up' icon={faUserPlus} />
 						</Link>
@@ -72,4 +73,10 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+function LoginWrapper() {
+	const navigate = useNavigate();
+
+	return <Login navigate={navigate} />;
+}
+
+export default LoginWrapper;

@@ -38,6 +38,7 @@ class Home extends Component {
 	render() {
 		const loggedIn = cookies.get('loggedIn');
 		const email = cookies.get('email');
+
 		const teachers = Object.values(this.state.teachers).filter(
 			(teacher) => {
 				const teacherName = `${teacher.firstName} ${teacher.lastName}`;
@@ -79,6 +80,7 @@ class Home extends Component {
 								teacher.ratings || defaultTeacherRatings;
 
 							const alreadyRated =
+								email &&
 								teacherRatings.difficulty?.[
 									formatFirebaseEmail(email)
 								];

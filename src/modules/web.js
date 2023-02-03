@@ -107,8 +107,8 @@ async function login({ email, password }) {
 
 	const userData = userSnapshot.val();
 
-	if (userData.password === hash) {
-		return userData;
+	if (sha256(userData.password) === hash) {
+		return true;
 	}
 }
 

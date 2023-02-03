@@ -36,7 +36,7 @@ class Teacher extends Component {
 		let teacherRatings = teacher.ratings || defaultTeacherRatings;
 
 		const alreadyRated =
-			teacherRatings.difficulty[formatFirebaseEmail(email)];
+			email && teacherRatings.difficulty[formatFirebaseEmail(email)];
 
 		const reviews = teacherRatings.reviews
 			? Object.values(teacherRatings.reviews)

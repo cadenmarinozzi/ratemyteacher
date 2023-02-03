@@ -1,11 +1,12 @@
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import Button from 'Components/shared/Button';
 import cookies from 'modules/cookies';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.scss';
 
 function Navbar({ loggedIn }) {
 	const email = cookies.get('email');
+	const navigate = useNavigate();
 
 	return (
 		<div className='navbar'>

@@ -31,8 +31,12 @@ class SignUp extends Component {
 		await cookies.set('email', email);
 		await cookies.set('password', password);
 
+		setTimeout(() => {
+			this.props.navigate('/');
+		}, 1000);
+
 		// go back
-		window.location.href = '/';
+		// window.location.href = '/';
 	}
 
 	render() {
@@ -63,12 +67,14 @@ class SignUp extends Component {
 						}
 					/>
 					<div className='sign-up-buttons'>
+						{/* <Link to='/'> */}
 						<Button
 							label='Sign Up'
 							icon={faUserPlus}
 							onClick={this.signUp.bind(this)}
 							cta
 						/>
+						{/* </Link> */}
 						<Link to='/login'>
 							<Button label='Login' icon={faUser} />
 						</Link>
