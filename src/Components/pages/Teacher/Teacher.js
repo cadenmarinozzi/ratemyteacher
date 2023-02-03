@@ -1,4 +1,4 @@
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'Components/shared/Button';
@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import './Teacher.scss';
 import { Component } from 'react';
 import cookies from 'modules/cookies';
+import { defaultTeacherRatings, formatFirebaseEmail } from 'modules/utils';
 
 class Teacher extends Component {
 	constructor() {
@@ -25,75 +26,84 @@ class Teacher extends Component {
 
 	render() {
 		const loggedIn = cookies.get('loggedIn');
+		const email = cookies.get('email');
+
 		const teacher = this.state.teacher;
 		const { teacherName } = this.props;
 
 		if (!teacher) return;
 
-		let ratings = teacher.ratings;
+		let teacherRatings = teacher.ratings || defaultTeacherRatings;
 
-		const reviews = ratings.reviews ? Object.values(ratings.reviews) : [];
+		const alreadyRated =
+			teacherRatings.difficulty[formatFirebaseEmail(email)];
+
+		const reviews = teacherRatings.reviews
+			? Object.values(teacherRatings.reviews)
+			: [];
 
 		let overallRating = 0;
 		let numRatings = 0;
 
 		let noRatings = false;
 
-		const ratingSpans = Object.values(ratings).map((ratings, index) => {
-			let averageRating = 0;
-			let ratingName = Object.keys(teacher.ratings)[index];
+		const ratingSpans = Object.values(teacherRatings).map(
+			(ratings, index) => {
+				let averageRating = 0;
+				let ratingName = Object.keys(teacherRatings)[index];
 
-			if (ratingName === 'reviews') return;
+				if (ratingName === 'reviews') return;
 
-			ratingName =
-				ratingName.charAt(0).toUpperCase() + ratingName.slice(1);
+				ratingName =
+					ratingName.charAt(0).toUpperCase() + ratingName.slice(1);
 
-			for (const rating of Object.values(ratings)) {
-				averageRating += rating;
-			}
+				for (const rating of Object.values(ratings)) {
+					averageRating += rating;
+				}
 
-			const numPeople = Object.values(ratings).length;
+				const numPeople = Object.values(ratings).length;
 
-			if (numPeople === 0) {
-				noRatings = true;
+				if (numPeople === 0) {
+					noRatings = true;
 
-				return <span key={index}>{ratingName}: No ratings</span>;
-			}
+					return <span key={index}>{ratingName}: No ratings</span>;
+				}
 
-			averageRating /= numPeople;
-			overallRating += averageRating;
-			averageRating = Math.round(averageRating);
+				averageRating /= numPeople;
+				overallRating += averageRating;
+				averageRating = Math.round(averageRating);
 
-			numRatings++;
+				numRatings++;
 
-			const ratingStars = [];
+				const ratingStars = [];
 
-			for (let i = 0; i < averageRating; i++) {
-				ratingStars.push(
-					<FontAwesomeIcon
-						key={i}
-						className={
-							averageRating === 5 ? 'star-gold' : 'star-solid'
-						}
-						icon={faStar}
-					/>
-				);
-			}
-
-			if (averageRating < 5) {
-				for (let i = 0; i < 5 - averageRating; i++) {
+				for (let i = 0; i < averageRating; i++) {
 					ratingStars.push(
-						<FontAwesomeIcon key={i + 5} icon={faStarRegular} />
+						<FontAwesomeIcon
+							key={i}
+							className={
+								averageRating === 5 ? 'star-gold' : 'star-solid'
+							}
+							icon={faStar}
+						/>
 					);
 				}
-			}
 
-			return (
-				<span key={index}>
-					{ratingName}: {ratingStars}
-				</span>
-			);
-		});
+				if (averageRating < 5) {
+					for (let i = 0; i < 5 - averageRating; i++) {
+						ratingStars.push(
+							<FontAwesomeIcon key={i + 5} icon={faStarRegular} />
+						);
+					}
+				}
+
+				return (
+					<span key={index}>
+						{ratingName}: {ratingStars}
+					</span>
+				);
+			}
+		);
 
 		overallRating /= numRatings;
 		overallRating = Math.floor(overallRating * 10) / 10;
@@ -138,7 +148,10 @@ class Teacher extends Component {
 									? `/rate-teacher/${teacherName}`
 									: '/login'
 							}>
-							<Button icon={faStar} label='Rate' />
+							<Button
+								icon={alreadyRated ? faEdit : faStar}
+								label={alreadyRated ? 'Edit Rating' : 'Rate'}
+							/>
 						</Link>
 					</div>
 				</div>

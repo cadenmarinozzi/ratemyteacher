@@ -1,4 +1,4 @@
-import { faStar, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faStar, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'Components/shared/Button';
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { getTeachers } from 'modules/web';
 import cookies from 'modules/cookies';
 import contentFilterText from 'modules/filtering';
+import { defaultTeacherRatings, formatFirebaseEmail } from 'modules/utils';
 
 class Home extends Component {
 	constructor() {
@@ -36,6 +37,7 @@ class Home extends Component {
 
 	render() {
 		const loggedIn = cookies.get('loggedIn');
+		const email = cookies.get('email');
 		const teachers = Object.values(this.state.teachers).filter(
 			(teacher) => {
 				const teacherName = `${teacher.firstName} ${teacher.lastName}`;
@@ -73,23 +75,27 @@ class Home extends Component {
 					<div className='teachers-list'>
 						{teachers.map((teacher, index) => {
 							const teacherName = `${teacher.firstName} ${teacher.lastName}`;
-							let ratings = teacher.ratings;
+							let teacherRatings =
+								teacher.ratings || defaultTeacherRatings;
 
-							const reviews = ratings.reviews
-								? Object.values(ratings.reviews)
+							const alreadyRated =
+								teacherRatings.difficulty?.[
+									formatFirebaseEmail(email)
+								];
+
+							const reviews = teacherRatings.reviews
+								? Object.values(teacherRatings.reviews)
 								: [];
 
 							let overallRating = 0;
 							let numRatings = 0;
 
 							let noRatings = false;
-
-							const ratingSpans = Object.values(ratings).map(
+							let ratingSpans = Object.values(teacherRatings).map(
 								(ratings, index) => {
 									let averageRating = 0;
-									let ratingName = Object.keys(
-										teacher.ratings
-									)[index];
+									let ratingName =
+										Object.keys(teacherRatings)[index];
 
 									if (ratingName === 'reviews') return;
 
@@ -242,8 +248,16 @@ class Home extends Component {
 														: '/login'
 												}>
 												<Button
-													icon={faStar}
-													label='Rate'
+													icon={
+														alreadyRated
+															? faEdit
+															: faStar
+													}
+													label={
+														alreadyRated
+															? 'Edit Rating'
+															: 'Rate'
+													}
 												/>
 											</Link>
 										</div>

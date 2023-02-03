@@ -10,4 +10,11 @@ function formatFirebaseEmail(email) {
 	return email.replace('.', ',');
 }
 
-export { sha256, formatFirebaseEmail };
+const defaultTeacherRatings = {
+	difficulty: {},
+	learning: {},
+	personality: {},
+	reviews: {},
+};
+
+export { sha256, formatFirebaseEmail, defaultTeacherRatings };

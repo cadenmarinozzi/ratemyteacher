@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, update, child, get } from 'firebase/database';
-import { formatFirebaseEmail, sha256 } from './utils.js';
+import { formatFirebaseEmail, sha256, defaultTeacherRatings } from './utils.js';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyAt0wTXwkTKT9KOQoxZjTRhmw-zRnGIT5o',
@@ -25,12 +25,7 @@ async function addTeacher({ firstName, lastName, subject, school, title }) {
 		subject,
 		school,
 		title,
-		ratings: {
-			reviews: {},
-			difficulty: {},
-			learning: {},
-			personality: {},
-		},
+		ratings: defaultTeacherRatings,
 	};
 
 	await set(teacherRef, teacherData);
