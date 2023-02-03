@@ -53,11 +53,7 @@ class App extends Component {
 						path='/rate-teacher/:teacherName'
 						element={loggedIn ? <RateTeacher /> : <Login />}
 					/>
-					<Route
-						path='/teacher/:teacherName'
-						element={<Teacher />}
-						loggedIn={loggedIn}
-					/>
+					<Route path='/teacher/:teacherName' element={<Teacher />} />
 					<Route path='/sign-up' element={<SignUp />} />
 					<Route path='/login' element={<Login />} />
 				</Routes>

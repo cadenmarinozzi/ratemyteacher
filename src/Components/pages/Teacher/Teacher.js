@@ -7,6 +7,7 @@ import { getTeacher } from 'modules/web';
 import { Link, useParams } from 'react-router-dom';
 import './Teacher.scss';
 import { Component } from 'react';
+import cookies from 'modules/cookies';
 
 class Teacher extends Component {
 	constructor() {
@@ -23,12 +24,15 @@ class Teacher extends Component {
 	}
 
 	render() {
+		const loggedIn = cookies.get('loggedIn');
 		const teacher = this.state.teacher;
-		const { teacherName, loggedIn } = this.props;
+		const { teacherName } = this.props;
 
 		if (!teacher) return;
 
 		let ratings = teacher.ratings;
+
+		const reviews = ratings.reviews ? Object.values(ratings.reviews) : [];
 
 		let overallRating = 0;
 		let numRatings = 0;
@@ -44,11 +48,11 @@ class Teacher extends Component {
 			ratingName =
 				ratingName.charAt(0).toUpperCase() + ratingName.slice(1);
 
-			for (let [rating, numPeople] of Object.entries(ratings)) {
-				averageRating += rating * numPeople;
+			for (const rating of Object.values(ratings)) {
+				averageRating += rating;
 			}
 
-			const numPeople = Object.values(ratings).reduce((a, b) => a + b, 0);
+			const numPeople = Object.values(ratings).length;
 
 			if (numPeople === 0) {
 				noRatings = true;
@@ -99,6 +103,9 @@ class Teacher extends Component {
 				<h2>{teacherName}</h2>
 				<div className='teacher'>
 					<div className='teacher-header'>
+						<span>
+							{teacher.title} {teacher.lastName}
+						</span>
 						<div className='header-title'>
 							<span className='teacher-subject'>
 								{teacher.subject}
@@ -114,10 +121,9 @@ class Teacher extends Component {
 							Overall:
 							<span
 								className={`overall-rating ${
-									overallRating === 5
+									overallRating >= 4
 										? 'good-overall-rating'
-										: overallRating === 4 ||
-										  overallRating === 3
+										: overallRating >= 3
 										? 'medium-overall-rating'
 										: 'bad-overall-rating'
 								}`}>
@@ -138,13 +144,19 @@ class Teacher extends Component {
 				</div>
 				<div className='teacher-reviews'>
 					<h2>Reviews</h2>
-					{teacher.ratings.reviews.map((review, index) => {
-						return (
-							<div key={index}>
-								<span>"{contentFilterText(review)}"</span>
-							</div>
-						);
-					})}
+					{reviews?.length > 0 ? (
+						reviews.map((review, index) => {
+							return (
+								<div key={index}>
+									<span>"{contentFilterText(review)}"</span>
+								</div>
+							);
+						})
+					) : (
+						<span className='no-reviews-label'>
+							No reviews yet!
+						</span>
+					)}
 				</div>
 			</div>
 		);

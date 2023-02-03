@@ -16,11 +16,15 @@
 
 	transform: translate(-50%, -50%);
 
+	max-width: 30%;
+
 	.teacher {
 		padding: 20px;
 
 		border: 1px solid $dark;
 		border-radius: 4px;
+
+		align-items: center;
 
 		background: $light;
 		box-shadow: $drop-shadow;
@@ -141,5 +145,9 @@
 		gap: 15px;
 
 		width: 100%;
+
+		.no-reviews-label {
+			color: $dark;
+		}
 	}
 }

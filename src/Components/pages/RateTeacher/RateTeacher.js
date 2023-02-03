@@ -1,6 +1,7 @@
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import Button from 'Components/shared/Button';
 import StarSelector from 'Components/shared/StarSelector';
+import cookies from 'modules/cookies';
 import { addRatings } from 'modules/web';
 import { Component } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -17,11 +18,15 @@ class RateTeacher extends Component {
 		const { difficulty, learning, personality, review } = this.state;
 
 		if (difficulty && learning && personality) {
-			addRatings(this.props.teacherName, {
-				difficulty,
-				learning,
-				personality,
-				review,
+			addRatings({
+				email: cookies.get('email'),
+				teacher: this.props.teacherName,
+				ratings: {
+					difficulty,
+					learning,
+					personality,
+					review,
+				},
 			});
 		}
 	}
@@ -37,6 +42,8 @@ class RateTeacher extends Component {
 						<StarSelector
 							label='Difficulty'
 							tooltip='How difficult is their class?'
+							leftLabel='Very difficult'
+							rightLabel='Very easy'
 							onChange={(difficulty) => {
 								this.setState({
 									difficulty,
@@ -46,6 +53,8 @@ class RateTeacher extends Component {
 						<StarSelector
 							label='Learning'
 							tooltip='How much do you learn in their class?'
+							leftLabel='You learn nothing'
+							rightLabel='You learn a lot'
 							onChange={(learning) => {
 								this.setState({
 									learning,
@@ -55,6 +64,8 @@ class RateTeacher extends Component {
 						<StarSelector
 							label='Personality'
 							tooltip='How nice are they?'
+							leftLabel='Very mean'
+							rightLabel='Very nice'
 							onChange={(personality) => {
 								this.setState({
 									personality,

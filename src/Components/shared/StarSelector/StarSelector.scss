@@ -53,11 +53,30 @@
 		}
 	}
 
-	.star-solid {
-		color: $primary;
-	}
+	.stars-container {
+		display: flex;
+		flex-direction: row;
 
-	.star-gold {
-		color: $warning;
+		align-items: center;
+
+		gap: 15px;
+
+		.star {
+			cursor: pointer;
+		}
+
+		.label {
+			color: $dark;
+
+			font-size: 10pt;
+		}
+
+		.star-solid {
+			color: $primary;
+		}
+
+		.star-gold {
+			color: $warning;
+		}
 	}
 }

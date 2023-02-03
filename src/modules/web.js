@@ -26,28 +26,10 @@ async function addTeacher({ firstName, lastName, subject, school, title }) {
 		school,
 		title,
 		ratings: {
-			reviews: [],
-			difficulty: {
-				1: 0,
-				2: 0,
-				3: 0,
-				4: 0,
-				5: 0,
-			},
-			learning: {
-				1: 0,
-				2: 0,
-				3: 0,
-				4: 0,
-				5: 0,
-			},
-			personality: {
-				1: 0,
-				2: 0,
-				3: 0,
-				4: 0,
-				5: 0,
-			},
+			reviews: {},
+			difficulty: {},
+			learning: {},
+			personality: {},
 		},
 	};
 
@@ -79,31 +61,37 @@ async function getTeacher(teacher) {
 	return teacherData;
 }
 
-async function addRatings(teacher, ratings) {
+async function addRatings({ email, teacher, ratings }) {
+	const formattedEmail = formatFirebaseEmail(email);
 	const teacherRef = child(teachersRef, teacher);
 	const teacherSnapshot = await get(teacherRef);
 
 	const teacherData = teacherSnapshot.val();
+	const teacherRatings = teacherData.ratings || {};
 
 	let newRatings = {
-		difficulty: teacherData.ratings.difficulty,
-		learning: teacherData.ratings.learning,
-		personality: teacherData.ratings.personality,
+		difficulty: teacherRatings.difficulty || {},
+		learning: teacherRatings.learning || {},
+		personality: teacherRatings.personality || {},
 	};
 
-	newRatings.difficulty[ratings.difficulty] += 1;
-	newRatings.learning[ratings.learning] += 1;
-	newRatings.personality[ratings.personality] += 1;
+	newRatings.difficulty[formattedEmail] = ratings.difficulty;
+	newRatings.learning[formattedEmail] = ratings.learning;
+	newRatings.personality[formattedEmail] = ratings.personality;
 
-	if (teacherData.ratings.reviews) {
-		newRatings.reviews = ratings.review
-			? (newRatings.reviews = [
-					...teacherData.ratings.reviews,
-					ratings.review,
-			  ])
-			: [...teacherData.ratings.reviews];
+	if (ratings.review) {
+		if (teacherRatings.reviews) {
+			newRatings.reviews = {
+				...teacherData.ratings.reviews,
+				[formattedEmail]: ratings.review,
+			};
+		} else {
+			newRatings.reviews = { [formattedEmail]: ratings.review };
+		}
 	} else {
-		newRatings.reviews = ratings.review ? [ratings.review] : [];
+		newRatings.reviews = teacherRatings.reviews
+			? teacherRatings.reviews
+			: {};
 	}
 
 	await update(teacherRef, {

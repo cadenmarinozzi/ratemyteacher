@@ -28,7 +28,7 @@ class StarSelector extends Component {
 	}
 
 	render() {
-		const { label, tooltip } = this.props;
+		const { label, tooltip, leftLabel, rightLabel } = this.props;
 		const stars = [];
 
 		for (let i = 0; i < Math.ceil(this.state.stars); i++) {
@@ -36,9 +36,9 @@ class StarSelector extends Component {
 			stars.push(
 				<FontAwesomeIcon
 					key={i}
-					className={
+					className={`star ${
 						this.state.stars === 5 ? 'star-gold' : 'star-solid'
-					}
+					}`}
 					onClick={this.handleChange.bind(this, starIndex)}
 					icon={
 						this.state.halfStar &&
@@ -58,6 +58,7 @@ class StarSelector extends Component {
 					<FontAwesomeIcon
 						key={i + 5}
 						icon={faStarRegular}
+						className='star'
 						onClick={this.handleChange.bind(this, starIndex)}
 					/>
 				);
@@ -80,7 +81,11 @@ class StarSelector extends Component {
 					)}
 					<span className='star-selector-label'>{label}</span>
 				</div>
-				<div>{stars}</div>
+				<div className='stars-container'>
+					{leftLabel && <span className='label'>{leftLabel}</span>}
+					<div>{stars}</div>
+					{rightLabel && <span className='label'>{rightLabel}</span>}
+				</div>
 			</div>
 		);
 	}

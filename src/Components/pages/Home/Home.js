@@ -17,6 +17,7 @@ class Home extends Component {
 		this.state = {
 			searchValue: '',
 			teachers: {},
+			loaded: false,
 		};
 	}
 
@@ -29,11 +30,25 @@ class Home extends Component {
 
 		this.setState({
 			teachers,
+			loaded: true,
 		});
 	}
 
 	render() {
 		const loggedIn = cookies.get('loggedIn');
+		const teachers = Object.values(this.state.teachers).filter(
+			(teacher) => {
+				const teacherName = `${teacher.firstName} ${teacher.lastName}`;
+				const searchValue = this.state.searchValue;
+
+				return (
+					teacherName.toLowerCase().includes(searchValue) ||
+					teacher.school
+						.toLowerCase()
+						.includes(searchValue.toLowerCase())
+				);
+			}
+		);
 
 		return (
 			<div className='home'>
@@ -46,26 +61,23 @@ class Home extends Component {
 						<Button label='Add Teacher' cta icon={faUserPlus} />
 					</Link>
 				</div>
-				<div className='teachers-list'>
-					{Object.values(this.state.teachers)
-						.filter((teacher) => {
-							const teacherName = `${teacher.firstName} ${teacher.lastName}`;
-							const searchValue = this.state.searchValue;
-
-							return (
-								teacherName
-									.toLowerCase()
-									.includes(searchValue) ||
-								teacher.school
-									.toLowerCase()
-									.includes(searchValue.toLowerCase())
-							);
-						})
-						.map((teacher, index) => {
+				{!this.state.loaded ? (
+					<span className='empty-teachers-label'>
+						Loading teachers...
+					</span>
+				) : teachers.length === 0 ? (
+					<span className='empty-teachers-label'>
+						No teachers found!
+					</span>
+				) : (
+					<div className='teachers-list'>
+						{teachers.map((teacher, index) => {
 							const teacherName = `${teacher.firstName} ${teacher.lastName}`;
 							let ratings = teacher.ratings;
 
-							const reviews = ratings.reviews ?? [];
+							const reviews = ratings.reviews
+								? Object.values(ratings.reviews)
+								: [];
 
 							let overallRating = 0;
 							let numRatings = 0;
@@ -85,16 +97,14 @@ class Home extends Component {
 										ratingName.charAt(0).toUpperCase() +
 										ratingName.slice(1);
 
-									for (let [
-										rating,
-										numPeople,
-									] of Object.entries(ratings)) {
-										averageRating += rating * numPeople;
+									for (const rating of Object.values(
+										ratings
+									)) {
+										averageRating += rating;
 									}
 
-									const numPeople = Object.values(
-										ratings
-									).reduce((a, b) => a + b, 0);
+									const numPeople =
+										Object.values(ratings).length;
 
 									if (numPeople === 0) {
 										noRatings = true;
@@ -178,12 +188,9 @@ class Home extends Component {
 												Overall:
 												<span
 													className={`overall-rating ${
-														overallRating === 5
+														overallRating >= 4
 															? 'good-overall-rating'
-															: overallRating ===
-																	4 ||
-															  overallRating ===
-																	3
+															: overallRating >= 3
 															? 'medium-overall-rating'
 															: 'bad-overall-rating'
 													}`}>
@@ -244,7 +251,8 @@ class Home extends Component {
 								</Link>
 							);
 						})}
-				</div>
+					</div>
+				)}
 			</div>
 		);
 	}
