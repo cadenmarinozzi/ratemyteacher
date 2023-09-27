@@ -1,0 +1,27 @@
+@use 'colors.scss' as *;
+
+.navbar {
+	padding: 10px;
+
+	width: calc(100% - 20px);
+
+	display: flex;
+	flex-direction: row;
+
+	justify-content: space-between;
+
+	align-items: center;
+
+	.email {
+		color: $dark;
+	}
+
+	.navbar-section {
+		display: flex;
+		flex-direction: row;
+
+		gap: 10px;
+
+		align-items: center;
+	}
+}

@@ -1,0 +1,64 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.dropdown-container {
+	position: relative;
+
+	.dropdown {
+		outline: 0;
+
+		width: 400px;
+		height: 50px;
+
+		margin-top: 25px;
+
+		border: 1px solid $dark;
+		border-radius: 5px;
+
+		transition: 0.3s;
+
+		background: $light;
+		color: $darkest;
+
+		padding-left: 15px;
+
+		-webkit-appearance: none;
+		appearance: none;
+
+		cursor: pointer;
+
+		font-size: 12pt;
+	}
+
+	.dropdown-label {
+		position: absolute;
+
+		color: dark;
+
+		font-size: 12pt;
+		font-family: sans-serif;
+
+		color: $primary;
+	}
+
+	.dropdown:hover {
+		border: 1px solid $primary;
+	}
+}
+
+.dropdown-container::after {
+	position: absolute;
+
+	color: $dark;
+
+	right: 15px;
+	top: 50%;
+
+	transform: translateY(50%);
+
+	content: '▼';
+
+	font-size: 8pt;
+
+	pointer-events: none;
+}

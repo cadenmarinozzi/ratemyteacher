@@ -1,0 +1,43 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.searchbar {
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+
+	gap: 10px;
+
+	border-radius: 4px;
+	border: 1px solid $dark;
+
+	padding: 10px;
+
+	width: 300px;
+	height: 20px;
+
+	box-shadow: $drop-shadow;
+
+	transition: $transition;
+
+	background: $light;
+
+	.search-icon {
+		color: $dark;
+
+		transition: $transition;
+	}
+
+	input {
+		background: transparent;
+
+		border: none;
+		outline: none;
+
+		width: 100%;
+		height: 100%;
+
+		color: $darkest;
+	}
+}

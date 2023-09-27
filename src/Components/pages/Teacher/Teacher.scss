@@ -1,0 +1,157 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.teacher-container {
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+
+	gap: 20px;
+
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+
+	transform: translate(-50%, -50%);
+
+	max-width: 30%;
+
+	.teacher {
+		padding: 20px;
+
+		border: 1px solid $dark;
+		border-radius: 4px;
+
+		align-items: center;
+
+		background: $light;
+		box-shadow: $drop-shadow;
+
+		display: flex;
+		flex-direction: column;
+
+		gap: 15px;
+
+		width: 100%;
+
+		.teacher-header {
+			display: flex;
+			flex-direction: column;
+
+			align-items: center;
+
+			gap: 5px;
+
+			.header-title {
+				display: flex;
+				flex-direction: row;
+
+				align-items: center;
+
+				gap: 10px;
+
+				.teacher-subject {
+					color: $dark;
+				}
+			}
+
+			.teacher-school {
+				color: $dark;
+			}
+		}
+
+		.teacher-ratings {
+			display: flex;
+			flex-direction: column;
+
+			gap: 8px;
+
+			.star-solid {
+				color: $primary;
+			}
+
+			.star-gold {
+				color: $warning;
+			}
+		}
+
+		.overall-rating-container {
+			display: flex;
+			flex-direction: column;
+
+			align-items: center;
+
+			gap: 5px;
+
+			.overall-rating {
+				color: $light;
+				font-weight: bold;
+
+				font-size: 22pt;
+
+				text-align: center;
+
+				border-radius: 4px;
+
+				display: flex;
+				flex-direction: row;
+
+				align-items: center;
+				justify-content: center;
+
+				width: 50px;
+				height: 50px;
+
+				background: transparent;
+			}
+
+			.good-overall-rating {
+				background: $success;
+			}
+
+			.bad-overall-rating {
+				background: $secondary;
+			}
+
+			.medium-overall-rating {
+				background: $warning;
+			}
+		}
+
+		.teacher-controls {
+			display: flex;
+			flex-direction: column;
+
+			align-items: center;
+		}
+	}
+
+	.teacher-reviews {
+		padding: 20px;
+
+		border: 1px solid $dark;
+		border-radius: 4px;
+
+		background: $light;
+		box-shadow: $drop-shadow;
+
+		display: flex;
+		flex-direction: column;
+
+		align-items: center;
+
+		gap: 15px;
+
+		width: 100%;
+
+		.no-reviews-label {
+			color: $dark;
+		}
+
+		.see-more-button {
+			cursor: pointer;
+		}
+	}
+}
