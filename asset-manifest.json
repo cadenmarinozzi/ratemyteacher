@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/ratemyteacher/static/css/main.bc8c40cc.css",
-    "main.js": "/ratemyteacher/static/js/main.5ad60cf5.js",
+    "main.css": "/ratemyteacher/static/css/main.e9dc2e12.css",
+    "main.js": "/ratemyteacher/static/js/main.9fb30bcd.js",
     "index.html": "/ratemyteacher/index.html",
-    "main.bc8c40cc.css.map": "/ratemyteacher/static/css/main.bc8c40cc.css.map",
-    "main.5ad60cf5.js.map": "/ratemyteacher/static/js/main.5ad60cf5.js.map"
+    "main.e9dc2e12.css.map": "/ratemyteacher/static/css/main.e9dc2e12.css.map",
+    "main.9fb30bcd.js.map": "/ratemyteacher/static/js/main.9fb30bcd.js.map"
   },
   "entrypoints": [
-    "static/css/main.bc8c40cc.css",
-    "static/js/main.5ad60cf5.js"
+    "static/css/main.e9dc2e12.css",
+    "static/js/main.9fb30bcd.js"
   ]
 }
